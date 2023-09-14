@@ -48,15 +48,18 @@ class Driver(User):
     matricula = db.Column(db.String(10), nullable=False)
     vehicle = db.Column(db.Enum(VehicleType), nullable=False)
 
+association_table = db.Table(
+    "association_table_orders",
+    db.Column("products", db.Integer ,db.ForeignKey("products.id")),
+    db.Column("ordenes", db.Integer ,db.ForeignKey("ordenes.id")),
+)
 class Products(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
-    
     name = db.Column(db.String(256), nullable=False)
     description = db.Column(db.String(1000), nullable=False)
     amount = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float(4,2), nullable=False)
-
 
 
 class Order(db.Model):
@@ -66,6 +69,11 @@ class Order(db.Model):
 
     delivery_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
     custumer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+
+    products = db.relationship("Products", secondary=association_table)
+
+
+
 
 
 
