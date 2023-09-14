@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+import enum
 
 db = SQLAlchemy()
 
@@ -17,3 +18,58 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+    
+
+class Address(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    country = db.Column(db.String(80), nullable=False)
+    city = db.Column(db.String(80), nullable=False)
+    address = db.Column(db.String(80), nullable=False)
+    postal_code = db.Column(db.String(40), nullable=False)
+
+
+class Customer(User):
+
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    #user = db.relationship("User")
+    delivery_address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
+    delivery_address = db.relationship('Address')
+
+
+class VehicleType(enum.Enum):
+    MOTO = "Bera"
+    CARRO = "Twingo"
+
+class Driver(User):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    matricula = db.Column(db.String(10), nullable=False)
+    vehicle = db.Column(db.Enum(VehicleType), nullable=False)
+
+class Products(db.Model):
+    
+    id = db.Column(db.Integer, primary_key=True)
+    
+    name = db.Column(db.String(256), nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
+    amount = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float(4,2), nullable=False)
+
+
+
+class Order(db.Model):
+
+    __tablename__ = "ordenes"
+    id = db.Column(db.Integer, primary_key=True)
+
+    delivery_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
+    custumer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+
+
+
+
+
+
+
