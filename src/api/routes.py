@@ -24,35 +24,43 @@ def create_account(tipo):
         
         # name = request.json.get("name", None)
 
-        new_driver = Driver(email="emaisl@gmail.com", password="paranguacutirimicuaro", matricula="VF346S9", vehicle=VehicleType.MOTO)
+        new_driver = Driver.query.filter_by(email="emaisl@gmail.com").one_or_none()
 
-        new_address = Address(country="Venezuela", city="Caracas", address="Los Guayabitos", postal_code=1080)
+        new_address = Address.query.filter_by(postal_code="1080").one_or_none()
 
-        new_customer = Customer(email="emaisl2@gmasil.com", password="paranguacutirimicuaro2", address=new_address)
-        
-        db.session.add(new_driver)
-        db.session.add(new_address)
-        db.session.add(new_customer)
+        new_customer = Customer.query.filter_by(email="emaisl2@gmasil.com").one_or_none()
         
         try:
             
-            arepas = Products.new_product("arepa", "la mejor comida", 1, 1.5)
-            malta = Products.new_product("malta", "la mejor bebida", 1, 1)
-            cachapa = Products.new_product("cachapa", "el mejor desayuno", 1, 3)
+            arepas = Products.query.filter_by(name="arepa").one_or_none()
+            malta = Products.query.filter_by(name="malta").one_or_none()
 
-            db.session.add(cachapa)
-            db.session.add(malta)
-            db.session.add(arepas)
+            new_order = Order(customer=new_customer, delivery=new_driver)
 
-            new_order = Order(customer=new_customer, delivery=new_driver, products=[arepas, malta, cachapa] )
+            new_order.items.append(malta)
+            new_order.items.append(arepas)
 
             db.session.add(new_order)
             db.session.commit()
 
             return jsonify(new_order.serialize()), 200
         except ValueError as err:
+            db.session.rollback()
             return "Error "+err, 500
 
     else:
         return jsonify({ "message": "Driver created succesfully" }), 400
 
+@api.route('/orders', methods=['GET'])
+def get_orders():
+
+    try:
+        orders = Order.query.all()
+
+        return jsonify([ord.serialize() for ord in orders]), 200
+    except ValueError as err:
+        db.session.rollback()
+        return "Error "+err, 500
+
+    else:
+        return jsonify({ "message": "Driver created succesfully" }), 400

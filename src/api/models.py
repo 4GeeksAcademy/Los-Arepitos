@@ -90,34 +90,33 @@ class Driver(User):
         
     
 
-# association_table = db.Table(
-#     "association_table_orders",
-#     db.Column("products", db.Integer ,db.ForeignKey("products.id")),
-#     db.Column("ordenes", db.Integer ,db.ForeignKey("ordenes.id")),
-# )
+association_table = db.Table(
+    "association_table_orders",
+    db.Column("products", db.ForeignKey("products.id")),
+    db.Column("ordenes", db.ForeignKey("ordenes.id")),
+)
 
 class Order(db.Model):
 
     __tablename__ = "ordenes"
     id = db.Column(db.Integer, primary_key=True)
 
-    # delivery_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
-    # delivery = db.relationship("Driver")
+    delivery_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
+    delivery = db.relationship("Driver")
 
-    # customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
-    # customer = db.relationship('Customer')
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    customer = db.relationship('Customer')
 
-    #items = db.relationship("Products", secondary=association_table, backref="active_orders")
+    items = db.relationship("Products", secondary=association_table, backref="active_orders")
 
-    def __init__(self, customer, delivery, items):
-        # self.customer = customer
-        # self.delivery = delivery
-        self.items = items
+    def __init__(self, customer, delivery):
+        self.customer = customer
+        self.delivery = delivery
 
     def serialize(self):
         return {
             "delivery": self.delivery.serialize(),
-            #"products" : [ pro.serialize() for pro in self.products]
+            "products" : [ pro.serialize() for pro in self.items]
         }
 
 class Products(db.Model):
