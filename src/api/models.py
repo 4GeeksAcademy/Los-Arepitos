@@ -9,6 +9,12 @@ class User(db.Model):
     password = db.Column(db.String(80), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
+    def __init__(self, email, password):
+        self.email = email
+        self.password = password
+        self.is_active = True
+
+
     def __repr__(self):
         return f'<User {self.email}>'
 
@@ -16,7 +22,6 @@ class User(db.Model):
         return {
             "id": self.id,
             "email": self.email,
-            # do not serialize the password, its a security breach
         }
     
 
@@ -28,14 +33,32 @@ class Address(db.Model):
     address = db.Column(db.String(80), nullable=False)
     postal_code = db.Column(db.String(40), nullable=False)
 
+    def __init__(self, country, city, address, postal_code):
+        self.country = country
+        self.city = city
+        self.address = address
+        self.postal_code = postal_code
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "address": self.address,
+            "postal_code": self.postal_code
+        }
+
+
 
 class Customer(User):
 
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    #user = db.relationship("User")
     delivery_address_id = db.Column(db.Integer, db.ForeignKey('address.id'))
+    
     delivery_address = db.relationship('Address')
+
+    def __init__(self, email, password, address):
+        super().__init__(email=email, password=password)
+        self.delivery_address = address
 
 
 class VehicleType(enum.Enum):
