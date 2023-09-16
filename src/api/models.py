@@ -60,6 +60,11 @@ class Customer(User):
         super().__init__(email=email, password=password)
         self.delivery_address = address
 
+    def serialize(self):
+        return {
+                "user":  super().serialize(),
+                "address": self.delivery_address.serialize()
+            }
 
 class VehicleType(enum.Enum):
     MOTO = "Bera"
@@ -71,11 +76,23 @@ class Driver(User):
     matricula = db.Column(db.String(10), nullable=False)
     vehicle = db.Column(db.Enum(VehicleType), nullable=False)
 
+    def __init__(self, email, password, matricula, vehicle):
+        super().__init__(email=email, password=password)
+        self.matricula = matricula
+        self.vehicle = vehicle
+
+    def serialize(self):
+        return {
+            "driver" : super().serialize(),
+            "vehicle": self.vehicle.value
+            }
+
 association_table = db.Table(
     "association_table_orders",
     db.Column("products", db.Integer ,db.ForeignKey("products.id")),
     db.Column("ordenes", db.Integer ,db.ForeignKey("ordenes.id")),
 )
+
 class Products(db.Model):
     
     id = db.Column(db.Integer, primary_key=True)
@@ -84,20 +101,53 @@ class Products(db.Model):
     amount = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float(4,2), nullable=False)
 
-
+    def __init__(self, name, price, amount=1, description=''):
+        self.name = name
+        self.description = description
+        self.amount = amount
+        self.price = price
+    
+    @classmethod
+    def create(cls, name, price, amount, description):
+        new_product = cls(name=name, price=price, amount=amount, description=description)
+        try:
+            db.session.add(new_product)
+            db.session.commit()
+            return new_product
+        except ValueError as err:
+            print(err)
+            return None
+        
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name
+        }
+    
 class Order(db.Model):
 
     __tablename__ = "ordenes"
     id = db.Column(db.Integer, primary_key=True)
 
     delivery_id = db.Column(db.Integer, db.ForeignKey('driver.id'))
-    custumer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    delivery = db.relationship("Driver")
+
+    customer_id = db.Column(db.Integer, db.ForeignKey('customer.id'))
+    customer = db.relationship("Customer")
 
     products = db.relationship("Products", secondary=association_table)
 
+    def __init__(self, delivery, customer):
+        self.delivery = delivery 
+        self.customer = customer
 
 
-
+    def serialize(self):
+        return {
+            "id" : self.id,
+            "customer_address" : self.customer.delivery_address.serialize(),
+            "items": [ pro.serialize() for pro in self.products ]
+        }
 
 
 
