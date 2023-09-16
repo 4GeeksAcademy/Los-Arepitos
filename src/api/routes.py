@@ -151,3 +151,40 @@ def get_all_orders():
         return {"message": "failed to retrive orders " + err}, 500
 
 
+@api.route("/orders/", methods=['POST'])
+def new_order():
+
+    body = request.get_json()
+
+    delivery_email = body.get("delivery", None)
+    customer_email = body.get("customer", None)
+
+    if delivery_email != None:
+        delivery = Driver.query.filter_by(email=delivery_email).one_or_none()
+        
+    if customer_email != None:
+        customer = Customer.query.filter_by(email=customer_email).one_or_none()
+
+        items = body.get("products", [])
+        
+        products = []
+
+        for i in items:
+            products.append( Products.query.get(i) )    
+
+        new_order = Order(customer=customer, delivery=delivery)
+
+        new_order.products = products
+
+        try:
+            db.session.add(new_order)
+            db.session.commit()
+
+            return new_order.serialize(), 200
+        
+        except ValueError as err:
+            return { "message" : "Something go wrong :(" }, 500
+
+
+    else:
+        return { "Something is missing or incorrect" }, 500
