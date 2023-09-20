@@ -12,7 +12,7 @@ export const Productos = () => {
         flux.actions.newProduct(producto)
     }
     return (
-        <div>
+        <div className="container d-flex flex-column col-8 mt-5">
             <div className="mb-3">
                 <label
                     for="name"
@@ -23,9 +23,6 @@ export const Productos = () => {
                     className="form-control"
                     id="name"
                     aria-describedby="emailHelp" />
-                <div
-                    id="emailHelp"
-                    className="form-text">We'll never share your email with anyone else.</div>
             </div>
             <div className="mb-3">
                 <label
@@ -38,9 +35,7 @@ export const Productos = () => {
                     className="form-control"
                     id="exampleInputEmail1"
                     aria-describedby="emailHelp" />
-                <div
-                    id="description"
-                    className="form-text">We'll never share your email with anyone else.</div>
+
             </div>
             <div className="mb-3">
                 <label
@@ -53,9 +48,7 @@ export const Productos = () => {
                     className="form-control"
                     id="amount"
                     aria-describedby="emailHelp" />
-                <div
-                    id="amount"
-                    className="form-text">We'll never share your email with anyone else.</div>
+
             </div>
             <div
                 className="mb-3">
@@ -72,7 +65,7 @@ export const Productos = () => {
             <button
                 onClick={() => agregarProducto()}
                 type="submit"
-                className="btn btn-primary">Submit</button>
+                className="btn btn-danger">Submit</button>
         </div>
     );
 }
