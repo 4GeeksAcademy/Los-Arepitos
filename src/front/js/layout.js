@@ -10,7 +10,6 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 import Order from "./pages/order";
-import CreateOrder from "./pages/createOrder";
 import ShoopingCart from "./component/shoopingCart";
 import { Productos } from "./pages/productos"
 
@@ -30,6 +29,7 @@ const Layout = () => {
           <Routes>
             <Route element={<Home />} path="/" />
             <Route element={<Demo />} path="/demo" />
+            <Route element={<Productos />} path="/productos" />
             <Route element={<Order />} path="/order" />
             <Route element={<ShoopingCart />} path="/order/details" />
             <Route element={<Single />} path="/single/:theid" />
@@ -40,23 +40,6 @@ const Layout = () => {
       </BrowserRouter>
     </div>
   );
-    return (
-        <div>
-            <BrowserRouter basename={basename}>
-                <ScrollToTop>
-                    <Navbar />
-                    <Routes>
-                        <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
-                        <Route element={<Productos />} path="/productos" />
-                        <Route element={<Single />} path="/single/:theid" />
-                        <Route element={<h1>Not found!</h1>} />
-                    </Routes>
-                    <Footer />
-                </ScrollToTop>
-            </BrowserRouter>
-        </div>
-    );
 };
 
 export default injectContext(Layout);
