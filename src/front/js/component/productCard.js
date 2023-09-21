@@ -5,7 +5,7 @@ const ProductCard = ({onProduct, onQuantity}) => {
     
   return (
     
-      <div className="card d-flex flex-column mt-5 flex-shrink-0"  style={{width: '200px'}}>
+      <div className="card d-flex flex-column mt-5 flex-shrink-0"  style={{width: '250px'}}>
         <img src="https://media-cdn.tripadvisor.com/media/photo-s/1a/d3/0d/ae/bandeja-mestiza.jpg" className="rounded" alt="..." style={{height: '50%' }}/>
         <div className="card-body">
           <h5 className="card-title">{productLabel}</h5>
