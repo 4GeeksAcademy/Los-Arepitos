@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Address, Customer, Driver, VehicleType, Products, Order
 from api.utils import generate_sitemap, APIException
 import re
-
+import bcrypt
  
 # Define a function for
 # for validating an Email
@@ -51,8 +51,17 @@ def create_driver():
         return { "message": "postal_code field is missing in request body" }, 400
 
     email = body.get("email", None)
+    name = body.get("name", None)
     password = body.get("password", None)
+
+    bpassword = bytes(password, 'utf-8')
+
+    salt = bcrypt.gensalt(14)
+
+    hashed_password = bcrypt.hashpw(password=bpassword, salt=salt)
     
+    print( len(hashed_password.decode('utf-8')), len(salt.decode('utf-8')))
+
     if email != None and password != None:
 
         if check(email) == False:
@@ -63,7 +72,7 @@ def create_driver():
 
             db.session.add(new_address) # Memoria Ram los querys a la BD
 
-            new_customer = Customer(email=email, password=password, address=new_address)
+            new_customer = Customer(email=email, password=hashed_password.decode('utf-8'), address=new_address, salt=salt.decode('utf-8'), name=name)
 
             db.session.add(new_customer)
 
