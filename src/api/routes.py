@@ -4,6 +4,9 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Address, Customer, Driver, VehicleType, Products, Order
 from api.utils import generate_sitemap, APIException
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
 import re
 import bcrypt
  
@@ -30,6 +33,29 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
+
+@api.route('/token', methods=['POST'])
+def create_token():
+    email = request.json.get('email', None)   
+    password = request.json.get('password', None)  
+    if email  is None or password is None:
+        return {'message': 'parameters missing'}, 400
+    user = User.query.filter_by(email= email).one_or_none()
+    if user is None:
+        return {'message': "user doesn't exist"}, 400
+    password_byte =bytes(password, 'utf-8')
+    # hash_password = bcrypt.hashpw(password_byte)
+    if bcrypt.checkpw(password_byte, user.password.encode('utf-8')):
+        return {'token': create_access_token(identity = user.email)},200
+    return {'message': 'you shall no pass'}, 501
+
+# bpassword = bytes(password, 'utf-8')
+
+#     salt = bcrypt.gensalt(14)
+
+#     hashed_password = bcrypt.hashpw(password=bpassword, salt=salt)
+    
+#     print( len(hashed_password.decode('utf-8')), len(salt.decode('utf-8')))
 
 @api.route('/accounts/customer', methods=['POST'])
 def create_driver():
