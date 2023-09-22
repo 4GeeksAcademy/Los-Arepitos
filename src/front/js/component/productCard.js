@@ -1,18 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
-const ProductCard = () => {
+const ProductCard = ({onProduct, onQuantity}) => {
+  const productLabel= onProduct[0].toUpperCase() + onProduct.slice(1); 
+    
   return (
-    <div className="card" style={{ width: "18rem;" }}>
-      <img src="https://static.wixstatic.com/media/82643f_4753976d1b264f36a0d1689230dae0ae~mv2.jpg/v1/crop/x_74,y_0,w_1712,h_1860/fill/w_560,h_612,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/pepitoarepas-9.jpg" className="card-img-top" alt="..."/>
-      <div className="card-body">
-        <h5 className="card-title">Product title</h5>
-        <p className="card-text">product description</p>
-        <input type="number" className="form-control" placeholder="Quantity" />
-        <span href="#" className="btn btn-danger mt-3">
-          Add to cart
-        </span>
+    
+      <div className="card d-flex flex-column mt-5 flex-shrink-0"  style={{width: '250px'}}>
+        <img src="https://media-cdn.tripadvisor.com/media/photo-s/1a/d3/0d/ae/bandeja-mestiza.jpg" className="rounded" alt="..." style={{height: '50%' }}/>
+        <div className="card-body">
+          <h5 className="card-title">{productLabel}</h5>
+          <p className="card-text">product description</p>        
+          <input type="number" className="form-control" placeholder="Quantity"/>
+          <span href="#" className="btn btn-danger mt-3">
+            Add to cart
+          </span>
+        </div>
       </div>
-    </div>
+
   );
 };
 
