@@ -1,0 +1,14 @@
+.custom-item {
+    height: 550px;
+}
+
+.custom-item img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    filter: brightness(0.5);
+}
+
+.custom-item .carousel-caption p{
+    font-family: 'Fuggles', cursive;   
+}
