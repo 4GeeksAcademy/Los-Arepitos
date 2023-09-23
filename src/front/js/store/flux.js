@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -54,22 +56,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
-
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
-
-				//reset the global store
-				setStore({ demo: demo });
+			createCustomer: async (customer) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "/api/accounts/customer",
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(customer)
+						})
+					const data = await resp.json()
+					return true;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+					return false
+				}
+			} 
 			}
 		}
 	};
-};
+
 
 export default getState;
