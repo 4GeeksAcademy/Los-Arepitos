@@ -20,7 +20,7 @@ const Carousel = () => {
             <div className="carousel-inner">
                 <div className="carousel-item active custom-item">
                     <img src={assortedAprepasURL} className="d-block w-100 custom-img" alt="..." />
-                    <div class="carousel-caption  top-0 mt-4">
+                    <div className="carousel-caption  top-0 mt-4">
                         <p className="mt-5 fs-2 fw-bolder text-uppercase">The Authentic Venezuelan Food</p>
                         <h1 className="display-1 fw-bolder text-capitalize">Arepitos Venezuelan Food</h1>
                         <button type="button" className="btn btn-danger px-4 py-2 mt-5 btn-lg" onClick={handleClick}>Order Now</button>
@@ -28,7 +28,7 @@ const Carousel = () => {
                 </div>
                 <div className="carousel-item custom-item">
                     <img src={foodVenezuelaURL} className="d-block w-100 custom-img" alt="..." />
-                    <div class="carousel-caption  top-0 mt-4">
+                    <div className="carousel-caption  top-0 mt-4">
                         <p className="mt-5 fs-2 fw-bolder text-uppercase">The Authentic Venezuelan Food</p>
                         <h1 className="display-1 fw-bolder text-capitalize">Arepitos Venezuelan Food</h1>
                         <button type="button" className="btn btn-danger px-4 py-2 mt-5 btn-lg" onClick={handleClick}>Order Now</button>
@@ -36,7 +36,7 @@ const Carousel = () => {
                 </div>
                 <div className="carousel-item custom-item">
                     <img src={cachapaURL} className="d-block w-100 custom-img" alt="..." />
-                    <div class="carousel-caption  top-0 mt-4">
+                    <div className="carousel-caption  top-0 mt-4">
                         <p className="mt-5 fs-2 fw-bolder text-uppercase">The Authentic Venezuelan Food</p>
                         <h1 className="display-1 fw-bolder text-capitalize">Arepitos Venezuelan Food</h1>
                         <button type="button" className="btn btn-danger px-4 py-2 mt-5 btn-lg" onClick={handleClick}>Order Now</button>

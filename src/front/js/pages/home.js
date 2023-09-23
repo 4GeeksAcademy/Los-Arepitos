@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { Context } from "../store/appContext";
-import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
 import Carousel from "../component/carousel";
+import CarouselCard from "../component/carousel-card";
 export const Home = () => {
 const { store, actions } = useContext(Context);
 
@@ -15,7 +15,8 @@ const { store, actions } = useContext(Context);
           </div>
         )
       }      
-      <Carousel />     
+      <Carousel />    
+      <CarouselCard /> 
     </>
   );
 };
