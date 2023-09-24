@@ -15,7 +15,7 @@ export const Productos = () => {
         <div className="container d-flex flex-column col-8 mt-5">
             <div className="mb-3">
                 <label
-                    for="name"
+                    htmlFor="name"
                     className="form-label">Nombre</label>
                 <input
                     onChange={(event) => setProducto({ ...producto, name: event.target.value })}
@@ -26,7 +26,7 @@ export const Productos = () => {
             </div>
             <div className="mb-3">
                 <label
-                    for="description"
+                    htmlFor="description"
                     className="form-label">Descripcion</label>
                 <input
                     onChange={(event) => setProducto({ ...producto, description: event.target.value })}
@@ -39,7 +39,7 @@ export const Productos = () => {
             </div>
             <div className="mb-3">
                 <label
-                    for="amount"
+                    htmlFor="amount"
                     className="form-label">Amount</label>
                 <input
                     onChange={(event) => setProducto({ ...producto, amount: parseInt(event.target.value) })}
@@ -53,7 +53,7 @@ export const Productos = () => {
             <div
                 className="mb-3">
                 <label
-                    for="exampleInputPassword1"
+                    htmlFor="exampleInputPassword1"
                     className="form-label">Price</label>
                 <input
                     onChange={(event) => setProducto({ ...producto, price: parseFloat(event.target.value) })}
