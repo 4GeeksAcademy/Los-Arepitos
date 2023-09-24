@@ -9,7 +9,7 @@ export const Footer = () => (
 						<div className="col-lg-4 col-md-12 mb-4 mb-md-0">
 							<h5 className="text-uppercase mb-4">About Us</h5>
 							<p align="justify">
-								Arepito arose as a idea to provide excellent service and quality food to our customers. Bringing the best of Venezuelan food to the United States.
+								Arepito arose as an idea to provide excellent service and quality food to our customers. Bringing the best of Venezuelan food to the United States.
 							</p>
 							<p align="justify">
 								Our principal goal is to provide the best service and quality food to our customers. We are a family business that is growing and we want to share our culture with you.

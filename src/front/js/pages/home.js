@@ -3,6 +3,9 @@ import { Context } from "../store/appContext";
 import "../../styles/home.css";
 import Carousel from "../component/carousel";
 import CarouselCard from "../component/carousel-card";
+import FoodMenu from "../component/foodMenu";
+
+
 export const Home = () => {
 const { store, actions } = useContext(Context);
 
@@ -17,6 +20,7 @@ const { store, actions } = useContext(Context);
       }      
       <Carousel />    
       <CarouselCard /> 
+      <FoodMenu />
     </>
   );
 };
