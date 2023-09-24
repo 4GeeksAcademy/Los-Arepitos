@@ -42,7 +42,7 @@ const FoodMenu = () => {
                         <div className="tab-pane fade active show" id="menu-starters">
                             <div className="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Starters</h3>
+                                <h3 className="text-danger fs-1">Starters</h3>
                             </div>
                             {/* Menu Items */}
                             <div className="row gy-5">
@@ -58,7 +58,7 @@ const FoodMenu = () => {
                         <div className="tab-pane fade" id="menu-breakfast">
                             <div className="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Breakfast</h3>
+                                <h3 className="text-danger fs-1">Breakfast</h3>
                             </div>
                                 {/* Menu Item */}
                             <div className="row gy-5">
@@ -75,7 +75,7 @@ const FoodMenu = () => {
 
                             <div className="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Lunch</h3>
+                                <h3 className="text-danger fs-1">Lunch</h3>
                             </div>
 
                             <div className="row gy-5">
@@ -93,7 +93,7 @@ const FoodMenu = () => {
 
                             <div className="tab-header text-center">
                                 <p>Menu</p>
-                                <h3>Dinner</h3>
+                                <h3 className="text-danger fs-1">Dinner</h3>
                             </div>
                             <div className="row gy-5">
                                 <CardItems src={pepito}/>
