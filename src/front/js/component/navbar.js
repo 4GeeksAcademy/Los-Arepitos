@@ -13,7 +13,7 @@ export const Navbar = () => {
 				</Link>
 				<div className="ml-auto">
 					<Link to="/login">
-						<button className="btn btn-primary mx-3"><i className="fa-solid fa-user"></i></button>
+						<button className="btn btn-primary mx-3">Login <i className="fa-solid fa-user"></i></button>
 					</Link>
 					<Link to="/order">
 						<button className="btn btn-primary"><i className="fa-solid fa-cart-shopping mr-2"></i>  Cart</button>
