@@ -85,8 +85,8 @@ class Driver(User):
     matricula = db.Column(db.String(10), nullable=False)
     vehicle = db.Column(db.Enum(VehicleType), nullable=False)
 
-    def __init__(self, email, password, matricula, vehicle):
-        super().__init__(email=email, password=password)
+    def __init__(self, email, password, matricula, vehicle, salt, name):
+        super().__init__(email=email, password=password, salt=salt, name=name)
         self.matricula = matricula
         self.vehicle = vehicle
 

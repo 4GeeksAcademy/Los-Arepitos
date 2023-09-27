@@ -4,27 +4,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			],
 			token: localStorage.getItem("token") || null,
 			profile: null
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
-
 			getMessage: async () => {
 				try {
 					// fetching data from the backend
@@ -58,6 +42,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
+
 			createCustomer: async (customer) => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/accounts/customer",
@@ -75,6 +60,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false
 				}
 			},
+
 			loginCustomer: async (email, password) => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/token",
@@ -94,6 +80,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return false
 				}
 			},
+
 			getCustomer: async () => {
 				let store = getStore()
 				try {
@@ -111,7 +98,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 
-			}
+			},
+
+			createDriver: async (driver) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "/api/accounts/driver",
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify(driver)
+						})
+					const data = await resp.json()
+					return true;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+					return false
+				}
+			},
+
+			loginDriver: async (email, password) => {
+				try {
+					const resp = await fetch(process.env.BACKEND_URL + "/api/token",
+						{
+							method: "POST",
+							headers: {
+								"Content-Type": "application/json",
+							},
+							body: JSON.stringify({ email, password })
+						})
+					const data = await resp.json()
+					localStorage.setItem("token", data.token) //guardar token en localstorage
+					setStore({ token: data.token })
+					return true;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+					return false
+				}
+			},
 		}
 	};
 };
