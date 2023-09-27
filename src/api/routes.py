@@ -132,10 +132,15 @@ def create_customer():
     body = request.get_json()
 
     email = body.get("email", None)
+    name = body.get("name", None)
     password = body.get("password", None)
 
     vehicle = body.get("vehicle", None)
     matricula = body.get("matricula", None)
+
+    bpassword = bytes(password, 'utf-8')
+    salt = bcrypt.gensalt(14)
+    hashed_password = bcrypt.hashpw(password=bpassword, salt=salt)
 
     if email != None and password != None:
 
@@ -145,9 +150,9 @@ def create_customer():
         try:
 
             if vehicle == 'moto':
-                new_driver = Driver(email=email, password=password, matricula=matricula, vehicle=VehicleType.MOTO)
+                new_driver = Driver(name=name, email=email, password=hashed_password.decode('utf-8'), matricula=matricula, vehicle=VehicleType.MOTO, salt=salt.decode('utf-8'))
             else:
-                new_driver = Driver(email=email, password=password, matricula=matricula, vehicle=VehicleType.CARRO)
+                new_driver = Driver(name=name, email=email, password=hashed_password.decode('utf-8'), matricula=matricula, vehicle=VehicleType.CARRO, salt=salt.decode('utf-8'))
 
             db.session.add(new_driver)
 

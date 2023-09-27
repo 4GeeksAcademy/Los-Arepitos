@@ -12,6 +12,7 @@ export const LoginDriver = () => {
     const { store, actions } = useContext(Context)
     const [isShow, setIsShown] = useState(false)
     const [driver, setDriver] = useState({
+        "name": "",
         "matricula": "",
         "email": "",
         "vehicle": "",
@@ -21,7 +22,7 @@ export const LoginDriver = () => {
 
     async function addUser() {
         if (driver.password == driver.password_check) {
-            let created = await actions.createdriver(driver)
+            let created = await actions.createDriver(driver)
             if (created) navigate("/")
             else alert("An error has occured")
         }
@@ -31,7 +32,7 @@ export const LoginDriver = () => {
     }
 
     function driverLogin({ email, password }) {
-        actions.logindriver(email, password)
+        actions.loginDriver(email, password)
     }
 
     useEffect(() => {
@@ -41,47 +42,44 @@ export const LoginDriver = () => {
         <div className="login-form">
             <section onSubmit={(e) => e.preventDefault}>
                 {
-                    !isShow ? <h1>Login</h1> : <h1>Register</h1>
+                    !isShow ? <h1>Welcome Driver!</h1> : <h1>Start working with us <i className="fa-solid fa-heart text-danger"></i></h1>
                 }
                 <div className="content">
-
+                    {
+                    isShow && (
+                        <div className="input-field">
+                            <input type="text" placeholder="Name" autoComplete="nope" onChange={(e) => setDriver({ ...driver, "name": e.target.value })} />
+                        </div>
+                        )
+                    }
                     <div className="input-field">
-                        <input type="email" placeholder="Email" autoComplete="nope" onChange={(e) => setDriver({ ...driver, "email": e.target.value })} />
+                        <input type="email" placeholder="Email" autoComplete="nope"
+                        onChange={(e) => setDriver({ ...driver, "email": e.target.value })} />
                     </div>
                     {
                         isShow && (<>
                             <div className="input-field">
-                                <input type="text" placeholder="matricula" autoComplete="nope" onChange={(e) => setDriver({ ...driver, "matricula": e.target.value })} />
+                                <input type="text" placeholder="matricula" autoComplete="nope"
+                                 onChange={(e) => setDriver({ ...driver, "matricula": e.target.value })} />
                             </div>
 
-                            <select className="form-select" aria-label="Default select example" onChange={(e) => setDriver({ ...driver, "vehicle": e.target.value })}>
-                                <option defaultValue>Open this select menu</option>
+                            <select className="select-vehicle" onChange={(e) => setDriver({ ...driver, "vehicle": e.target.value })}>
+                                <option defaultValue>VEHICLE</option>
                                 <option value="moto">Moto</option>
                                 <option value="carro">Carro</option>
-
                             </select>
-
-
                         </>
                         )
                     }
                     <div className="input-field">
-                        <input
-                            type="password"
-                            placeholder="Password"
-                            autoComplete="new-password"
-                            onChange={(e) => setDriver({ ...driver, "password": e.target.value })}
-                        />
+                        <input type="password" placeholder="Password" autoComplete="new-password"
+                            onChange={(e) => setDriver({ ...driver, "password": e.target.value })} />
                     </div>
                     {
                         isShow && (
                             <div className="input-field">
-                                <input
-                                    type="password"
-                                    placeholder="Repeat Password"
-                                    autoComplete="new-password"
-                                    onChange={(e) => setDriver({ ...driver, "password_check": e.target.value })}
-                                />
+                                <input type="password" placeholder="Repeat Password" autoComplete="new-password"
+                                    onChange={(e) => setDriver({ ...driver, "password_check": e.target.value })} />
                             </div>
                         )
                     }
