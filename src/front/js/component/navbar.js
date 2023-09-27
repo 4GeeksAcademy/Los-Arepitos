@@ -7,7 +7,7 @@ import logo from "../../img/logo1.png";
 export const Navbar = () => {
 	const { store } = useContext(Context);
 	const [title, setTitle] = useState("");
-	const titulo = ["Los Arepitos", "Comida Venezolana"];
+	const titulo = ["Los Arepitos", "Venezuelan Food"];
 
 	useEffect(() => {
 		let i = 0;
