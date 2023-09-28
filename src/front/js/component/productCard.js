@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import "../../styles/order.css";
 
 const ProductCard = ({onProduct, onQuantity}) => {
   const productLabel= onProduct[0].toUpperCase() + onProduct.slice(1); 
@@ -10,7 +11,7 @@ const ProductCard = ({onProduct, onQuantity}) => {
         <div className="card-body">
           <h5 className="card-title">{productLabel}</h5>
           <p className="card-text">product description</p>        
-          <input type="number" className="form-control" placeholder="Quantity"/>
+          <input type="number" className="" placeholder="Quantity"/>
           <span href="#" className="btn btn-danger mt-3">
             Add to cart
           </span>

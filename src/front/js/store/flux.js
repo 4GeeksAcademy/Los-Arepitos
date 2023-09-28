@@ -5,7 +5,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 			message: null,
 			token: localStorage.getItem("token") || null,
-			profile: null
+			profile: null,
+			products: [{ 'product': 'arepa', 'quantity': 0 }, { 'product': 'cachapa', 'quantity': 0 }, { 'product': 'tequeno', 'quantity': 0 }, { 'product': 'empanada', 'quantity': 0 }, { 'product': 'patacon', 'quantity': 0 }, { 'product': 'pabellon', 'quantity': 0 }, { 'product': 'quesillo', 'quantity': 0 }, { 'product': 'queso', 'quantity': 0 }, { 'product': 'guasacaca', 'quantity': 0 }, { 'product': 'guayoyo', 'quantity': 0 }, { 'product': 'chicha', 'quantity': 0 }, { 'product': 'malta', }]
 		},
 		actions: {
 			// Use getActions to call a function within a fuction

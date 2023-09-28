@@ -1,7 +1,4 @@
 
-/*--------------------------------------------------------------
-# Menu Section
---------------------------------------------------------------*/
 .Amatic-SC {
   font-family: 'Amatic SC', cursive;
 }
@@ -106,8 +103,6 @@
   font-weight: 700;
   color: var(--color-primary);
 }
-
-
 
 @keyframes animate-loading {
   0% {
