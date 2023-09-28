@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-
-import logo from "../../img/logo1.png";
+import arepitosLogo from "../../img/arepitos.png"
 
 export const Navbar = () => {
 	const { store } = useContext(Context);
@@ -27,20 +26,23 @@ export const Navbar = () => {
 		<nav className="navbar navbar-expand-lg navbar-light bg-secondary sticky-top">
 			<div className="container">
 				<Link to="/">
-					<div className="d-flex align-items-center">
-						<img src={logo} alt="Arepitos Logo" className="me-3" style={{ height: "50px", width: "50px", objectFit: "contain", backgroundColor: "transparent" }} />
-						<span className="navbar-brand text-white text-bold font-weight-bold mr-auto my-0 my-lg-0 ms-2">{title} {store.profile ? store.profile?.user?.name : ""}</span>
-					</div>
+					<span className="navbar-brand mb-0 h1 arepitos-logo">
+						<img src={arepitosLogo} alt="Logo" style={{ width: "70px", paddingRight: "8px" }} />
+					</span>
+					{title}
 				</Link>
 				<div className="ml-auto">
+					<Link to="/loginDriver">
+						<button className="btn btn-danger mx-1"><i className="fa-solid fa-motorcycle"></i></button>
+					</Link>
 					<Link to="/login">
-						<button className="btn btn-primary mx-3">Login <i className="fa-solid fa-user"></i></button>
+						<button className="btn btn-danger mx-3">Login <i className="fa-solid fa-user"></i></button>
 					</Link>
 					<Link to="/order">
-						<button className="btn btn-primary"><i className="fa-solid fa-cart-shopping mr-2"></i>  Cart</button>
+						<button className="btn btn-danger"><i className="fa-solid fa-cart-shopping mr-2"></i>  Cart</button>
 					</Link>
 				</div>
 			</div>
-		</nav>
+		</nav >
 	);
 };

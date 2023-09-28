@@ -93,14 +93,28 @@
     transition: all .3s;
   }
   .login-form .action button:hover {
-    background: #D8D8D8;
+    background: #a53838;;
   }
   .login-form .action .selected {
-    background: #2D3B55;
+    background: #8d2020;;
     color: #fff;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 4px;
   }
   .login-form .action button:nth-child(2):hover {
-    background: #3C4D6D;
+    background: #a53838;;
+  }
+
+  .select-vehicle{
+    font-size: 16px;
+    display: block;
+    font-family: 'Rubik', sans-serif;
+    width: 50%;
+    padding: 10px 3px;
+    -webkit-transition: all .2s;
+    transition: all .2s;
+    margin-top: 1%;
+    border: 1px solid white;
+    border-bottom: 1px solid #747474;
+    outline: none
   }
