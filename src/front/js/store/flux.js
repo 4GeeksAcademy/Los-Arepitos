@@ -74,6 +74,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json()
 					localStorage.setItem("token", data.token) //guardar token en localstorage
 					setStore({ token: data.token })
+					getActions().getProfile()
 					return true;
 				} catch (error) {
 					console.log("Error loading message from backend", error)
@@ -81,10 +82,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 
-			getCustomer: async () => {
+			getProfile: async () => {
 				let store = getStore()
+
+				if (!store.token) return
 				try {
-					const resp = await fetch(process.env.BACKEND_URL + "/api/profile/customer",
+					const resp = await fetch(process.env.BACKEND_URL + "/api/profile",
 						{
 							method: "GET",
 							headers: {
@@ -99,6 +102,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 			},
+
+
 
 			createDriver: async (driver) => {
 				try {
@@ -131,12 +136,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json()
 					localStorage.setItem("token", data.token) //guardar token en localstorage
 					setStore({ token: data.token })
+
+					getActions().getProfile()
+
 					return true;
 				} catch (error) {
 					console.log("Error loading message from backend", error)
 					return false
 				}
 			},
+
+			logOut: () => {
+				localStorage.removeItem("token") //elimanaria el token
+				setStore({ token: null, profile: null })
+			}
 		}
 	};
 };

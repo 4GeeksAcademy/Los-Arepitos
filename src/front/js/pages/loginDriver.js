@@ -36,8 +36,9 @@ export const LoginDriver = () => {
     }
 
     useEffect(() => {
-        store.isLogin && navigate('/')
+        store.token && navigate('/')
     })
+
     return (
         <div className="login-form">
             <section onSubmit={(e) => e.preventDefault}>
@@ -46,21 +47,21 @@ export const LoginDriver = () => {
                 }
                 <div className="content">
                     {
-                    isShow && (
-                        <div className="input-field">
-                            <input type="text" placeholder="Name" autoComplete="nope" onChange={(e) => setDriver({ ...driver, "name": e.target.value })} />
-                        </div>
+                        isShow && (
+                            <div className="input-field">
+                                <input type="text" placeholder="Name" autoComplete="nope" onChange={(e) => setDriver({ ...driver, "name": e.target.value })} />
+                            </div>
                         )
                     }
                     <div className="input-field">
                         <input type="email" placeholder="Email" autoComplete="nope"
-                        onChange={(e) => setDriver({ ...driver, "email": e.target.value })} />
+                            onChange={(e) => setDriver({ ...driver, "email": e.target.value })} />
                     </div>
                     {
                         isShow && (<>
                             <div className="input-field">
                                 <input type="text" placeholder="matricula" autoComplete="nope"
-                                 onChange={(e) => setDriver({ ...driver, "matricula": e.target.value })} />
+                                    onChange={(e) => setDriver({ ...driver, "matricula": e.target.value })} />
                             </div>
 
                             <select className="select-vehicle" onChange={(e) => setDriver({ ...driver, "vehicle": e.target.value })}>

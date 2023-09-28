@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 export const Footer = () => (
-	<footer className="footer mt-auto py-3 text-center">
+	<footer className="footer mt-auto pt-3 text-center">
 
 		<footer className="text-white text-center text-lg-start bg-dark">
 			<div className="container p-4">

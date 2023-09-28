@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import arepitosLogo from "../../img/arepitos.png"
 
 export const Navbar = () => {
-	const { store } = useContext(Context);
+	const { store, actions } = useContext(Context);
 	const [title, setTitle] = useState("");
 	const titulo = ["Los Arepitos", "Venezuelan Food"];
 
@@ -32,15 +32,47 @@ export const Navbar = () => {
 					{title}
 				</Link>
 				<div className="ml-auto">
-					<Link to="/loginDriver">
-						<button className="btn btn-danger mx-1"><i className="fa-solid fa-motorcycle"></i></button>
-					</Link>
-					<Link to="/login">
-						<button className="btn btn-danger mx-3">Login <i className="fa-solid fa-user"></i></button>
-					</Link>
-					<Link to="/order">
-						<button className="btn btn-danger"><i className="fa-solid fa-cart-shopping mr-2"></i>  Cart</button>
-					</Link>
+					{
+						store.profile?.driver && <span className="fs-4 text-white mx-2">
+							<i className="fa-solid fa-motorcycle text-white"></i>
+							{store.profile.driver.name}
+						</span>
+					}
+					{
+						store.profile?.user && <span className="fs-4 text-white mx-2">
+							<i className="fa-solid fa-user text-white"></i>
+							{store.profile.user.name}
+						</span>
+					}
+					{
+						!store.token && <>
+							<Link to="/loginDriver">
+								<button className="btn btn-danger mx-1">
+									<i className="fa-solid fa-motorcycle"></i>
+								</button>
+							</Link>
+							<Link to="/login">
+								<button className="btn btn-danger mx-3">
+									Login
+									<i className="fa-solid fa-user"></i>
+								</button>
+							</Link>
+						</>
+					}
+					{
+						store.token && <>
+							<Link to="/order">
+								<button className="btn btn-danger">
+									<i className="fa-solid fa-cart-shopping me-2"></i>
+									Cart
+								</button>
+							</Link>
+							<button className="btn btn-danger ms-2" onClick={() => actions.logOut()}>
+								<i className="fa-solid fa-right-from-bracket"></i>
+								Logout
+							</button>
+						</>
+					}
 				</div>
 			</div>
 		</nav >

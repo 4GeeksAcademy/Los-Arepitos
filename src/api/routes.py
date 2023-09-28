@@ -57,14 +57,19 @@ def create_token():
     
 #     print( len(hashed_password.decode('utf-8')), len(salt.decode('utf-8')))
 
-@api.route('/profile/customer')
+@api.route('/profile')
 @jwt_required()
 def get_customer_profile():
     email = get_jwt_identity()
-    customer = Customer.query.filter_by(email= email).one_or_none()
+    customer = Customer.query.filter_by(email=email).one_or_none()
     if customer is not None:
         return customer.serialize(), 200
-    return {"message": "Customer not Authorized"}, 401 
+    
+    driver = Driver.query.filter_by(email=email).one_or_none()
+    if driver is not None:
+        return driver.serialize(), 200
+
+    return {"message": "Not Authorized"}, 401 
 
 
 @api.route('/accounts/customer', methods=['POST'])

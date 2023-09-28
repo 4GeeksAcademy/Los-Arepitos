@@ -32,12 +32,14 @@ export const Login = () => {
   }
 
   function customerLogin({ email, password }) {
-    actions.loginCustomer(email, password)
+    let isValid = actions.loginCustomer(email, password)
+    //if(isValid) navigate("/orders")
   }
 
   useEffect(() => {
-    store.isLogin && navigate('/')
+    store.token && navigate('/')
   })
+
   return (
     <div className="login-form">
       <section onSubmit={(e) => e.preventDefault}>
