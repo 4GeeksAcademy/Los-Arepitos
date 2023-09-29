@@ -23,7 +23,7 @@ export const Navbar = () => {
 	}, []);
 
 	return (
-		<nav className="navbar navbar-expand-lg navbar-light bg-secondary sticky-top">
+		<nav className="navbar navbar-expand-lg navbar-dark bg-secondary sticky-top">
 			<div className="container">
 				<Link to="/">
 					<span className="navbar-brand mb-0 h1 arepitos-logo">

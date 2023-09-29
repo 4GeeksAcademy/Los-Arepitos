@@ -14,6 +14,7 @@ import Order from "./pages/order";
 import ShoopingCart from "./component/shoopingCart";
 import { Productos } from "./pages/productos"
 import { LoginDriver } from "./pages/loginDriver";
+import Dashboard from "./pages/dashboard";
 
 //create your first component
 const Layout = () => {
@@ -34,6 +35,7 @@ const Layout = () => {
             <Route element={<Login />} path="/login" />
             <Route element={<LoginDriver />} path="/loginDriver" />
             <Route element={<Productos />} path="/productos" />
+            <Route element={<Dashboard />} path="/admin" />
             <Route element={<Order />} path="/order" />
             <Route element={<ShoopingCart />} path="/order/details" />
             <Route element={<Single />} path="/single/:theid" />
