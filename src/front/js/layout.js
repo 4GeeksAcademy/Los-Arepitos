@@ -15,6 +15,7 @@ import ShoopingCart from "./component/shoopingCart";
 import { Productos } from "./pages/productos"
 import { LoginDriver } from "./pages/loginDriver";
 import Dashboard from "./pages/dashboard";
+import { Payment } from "./pages/payment";
 
 //create your first component
 const Layout = () => {
@@ -38,6 +39,7 @@ const Layout = () => {
             <Route element={<Dashboard />} path="/admin" />
             <Route element={<Order />} path="/order" />
             <Route element={<ShoopingCart />} path="/order/details" />
+            <Route element={<Payment />} path="/payment" />
             <Route element={<Single />} path="/single/:theid" />
             <Route element={<h1>Not found!</h1>} />
           </Routes>
