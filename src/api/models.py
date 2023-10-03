@@ -107,18 +107,20 @@ class Products(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(256), nullable=False)
     description = db.Column(db.String(1000), nullable=False)
+    image = db.Column(db.String(1700), nullable=True)
     amount = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float(4,2), nullable=False)
 
-    def __init__(self, name, price, amount=1, description=''):
+    def __init__(self, name, price, image, amount=1, description=''):
         self.name = name
         self.description = description
         self.amount = amount
         self.price = price
+        self.image = image
     
     @classmethod
-    def create(cls, name, price, amount, description):
-        new_product = cls(name=name, price=price, amount=amount, description=description)
+    def create(cls, name, price, amount, image, description):
+        new_product = cls(name=name, price=price, image=image, amount=amount, description=description)
         try:
             db.session.add(new_product)
             db.session.commit()
@@ -133,7 +135,8 @@ class Products(db.Model):
             "name": self.name,
             "quantity": self.amount,
             "price": self.price,
-            "description": self.description
+            "description": self.description,
+            "image_url": self.image
         }
     
 class Order(db.Model):

@@ -192,11 +192,12 @@ def create_product():
     description = body.get("description", '')
     amount = body.get("amount", 1)
     price = body.get("price", None)
+    image = body.get("product_url", None)
 
     if name == None or price == None:
         return { "message" : "request body missing name or price" }, 400
 
-    new_product = Products.create(name=name, amount=amount, description=description, price=price)
+    new_product = Products.create(name=name, amount=amount, image=image, description=description, price=price)
     if new_product == None:
         return { "message" : "An error has occurd during product creation" }, 500
 
