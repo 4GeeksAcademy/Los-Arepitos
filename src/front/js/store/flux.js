@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			message: null,
 			token: localStorage.getItem("token") || null,
 			profile: null,
-			products: [{ 'product': 'arepa', 'quantity': 0 }, { 'product': 'cachapa', 'quantity': 0 }, { 'product': 'tequeno', 'quantity': 0 }, { 'product': 'empanada', 'quantity': 0 }, { 'product': 'patacon', 'quantity': 0 }, { 'product': 'pabellon', 'quantity': 0 }, { 'product': 'quesillo', 'quantity': 0 }, { 'product': 'queso', 'quantity': 0 }, { 'product': 'guasacaca', 'quantity': 0 }, { 'product': 'guayoyo', 'quantity': 0 }, { 'product': 'chicha', 'quantity': 0 }, { 'product': 'malta', }]
+			products: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -43,7 +43,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.log("Error loading message from backend", error)
 				}
 			},
+			getProducts: async () => {
+				try {
+					// fetching data from the backend
+					const resp = await fetch(process.env.BACKEND_URL + "/api/products")
+					const data = await resp.json()
 
+					setStore({ products: data })
+					// don't forget to return something, that is how the async resolves
+					return data;
+				} catch (error) {
+					console.log("Error loading message from backend", error)
+				}
+			},
 			createCustomer: async (customer) => {
 				try {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/accounts/customer",

@@ -130,7 +130,10 @@ class Products(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "name": self.name
+            "name": self.name,
+            "quantity": self.amount,
+            "price": self.price,
+            "description": self.description
         }
     
 class Order(db.Model):

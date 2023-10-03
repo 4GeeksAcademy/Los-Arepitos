@@ -60,12 +60,15 @@ def create_token():
 @api.route('/profile')
 @jwt_required()
 def get_customer_profile():
+
     email = get_jwt_identity()
+
     customer = Customer.query.filter_by(email=email).one_or_none()
     if customer is not None:
         return customer.serialize(), 200
     
     driver = Driver.query.filter_by(email=email).one_or_none()
+    
     if driver is not None:
         return driver.serialize(), 200
 
@@ -173,6 +176,12 @@ def create_customer():
 
     
     return jsonify(body), 200
+
+
+@api.route("/products", methods=['GET'])
+def load_products():
+    productos = Products.query.all()
+    return [ prod.serialize() for prod in productos ] , 200
 
 
 @api.route("/products", methods=['POST'])

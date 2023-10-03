@@ -15,7 +15,7 @@ import ShoopingCart from "./component/shoopingCart";
 import { Productos } from "./pages/productos"
 import { LoginDriver } from "./pages/loginDriver";
 import Dashboard from "./pages/dashboard";
-import { Payment } from "./pages/payment";
+import Payment  from "./pages/payment";
 
 //create your first component
 const Layout = () => {
