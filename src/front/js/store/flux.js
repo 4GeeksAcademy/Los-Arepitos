@@ -67,7 +67,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 							body: JSON.stringify(customer)
 						})
 					const data = await resp.json()
+
+					setStore({ "profile": data.customer, "token": data.token })
+					localStorage.setItem("token", data.token)
+
 					return true;
+
 				} catch (error) {
 					console.log("Error loading message from backend", error)
 					return false

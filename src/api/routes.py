@@ -4,9 +4,9 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Address, Customer, Driver, VehicleType, Products, Order
 from api.utils import generate_sitemap, APIException
-from flask_jwt_extended import create_access_token
-from flask_jwt_extended import get_jwt_identity
-from flask_jwt_extended import jwt_required
+
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
+
 import re
 import bcrypt
  
@@ -122,7 +122,7 @@ def create_driver():
 
             db.session.commit() # Datos en la BD postgrest
 
-            return new_customer.serialize(), 200
+            return { "customer": new_customer.serialize() , "token" : create_access_token(identity=email) }, 200
 
         except ValueError as error:
 

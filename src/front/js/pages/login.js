@@ -28,11 +28,6 @@ export const Login = () => {
       if (created) {
         setModalMessage("Registration successful!");
         setShowModal(true);
-        setTimeout(() => {
-          setShowModal(false);
-          actions.loginCustomer(customer.email, customer.password);
-          navigate("/");
-        }, 2000);
       } else {
         alert("An error has occured");
       }
@@ -178,6 +173,7 @@ export const Login = () => {
         <Modal.Body>
           <div className="d-flex justify-content-center align-items-center flex-column">
             <FcOk size={100} className="text-success mr-2" />
+            <button className="" onClick={() => setShowModal(false)} > close </button>
             <p className="mb-0 text-black mt-3 fw-bold fs-3">{modalMessage}</p>
           </div>
         </Modal.Body>
