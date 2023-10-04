@@ -47,7 +47,7 @@ export const Navbar = () => {
 						{
 							store.profile?.user && <li className="nav-item">
 								<span className="fs-4 text-white mx-2">
-									<i className="fa-solid fa-user text-white"></i>
+									<i className="fa-solid fa-user text-white mx-3"></i>
 									{store.profile.user.name}
 								</span>
 							</li>
