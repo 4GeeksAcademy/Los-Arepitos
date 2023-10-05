@@ -16,6 +16,8 @@ import { Productos } from "./pages/productos"
 import { LoginDriver } from "./pages/loginDriver";
 import Dashboard from "./pages/dashboard";
 import Payment  from "./pages/payment";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 //create your first component
 const Layout = () => {
@@ -44,6 +46,7 @@ const Layout = () => {
             <Route element={<h1>Not found!</h1>} />
           </Routes>
           <Footer />
+          <ToastContainer />
         </ScrollToTop>
       </BrowserRouter>
     </div>

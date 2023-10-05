@@ -3,6 +3,7 @@ import "../../styles/order.css";
 import { useContext } from "react";
 import ProductCard from "../component/productCard";
 import { Context } from "../store/appContext";
+import { toast } from 'react-toastify';
 
 const Order = () => {
   const {store, actions} = useContext(Context);
@@ -25,6 +26,18 @@ const Order = () => {
           <ProductCard key={item} onProduct={name} onQuantity={quantity} price={price} description={description} image={image_url}/>
         )
       })}
+      <button onClick={()=> toast('🦄 Wow so easy!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+        })}>
+           Show Toast 
+      </button>
     </div>
   );
 };

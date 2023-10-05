@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
 
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
@@ -38,6 +39,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					// setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
+					toast("Wow so easy !");
 					return data;
 				} catch (error) {
 					console.log("Error loading message from backend", error)
