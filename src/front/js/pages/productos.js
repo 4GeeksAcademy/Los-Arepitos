@@ -4,42 +4,40 @@ import { storage } from "../hooks/useFirebase";
 import { getDownloadURL, ref as storageRef, uploadBytes } from "firebase/storage";
 import { Modal } from "react-bootstrap";
 import { FcOk } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 export const Productos = () => {
     const id = new Date();
 
+    const navigate = useNavigate();
+
     const [submitModal, setSubmitModal] = useState(false);
     const [uploadModal, setUploadModal] = useState(false);
 
-    const uploadFile = () => {
+    const uploadFile = async () => {
         if (producto.image === null) {
             alert("Please select an image");
             return;
         }
         const imageRef = storageRef(storage, `products/${id}`);
 
-        uploadBytes(imageRef, producto.image)
-            .then((snapshot) => {
-                getDownloadURL(snapshot.ref)
-                    .then((url) => {
-                        setProducto({ ...producto, product_url: url });
-                        setUploadModal(true);
-                        setTimeout(() => {
-                            setUploadModal(false);
-                            navigate("/");
-                        }, 1000);
-                    })
-                    .catch((error) => {
-                        alert(error.message);
-                    });
-            })
-            .catch((error) => {
-                alert(error.message);
-            });
+        try{
+
+            const uploadResp = await uploadBytes(imageRef, producto.image)
+            
+            const url =  await getDownloadURL(uploadResp.ref)
+            
+            return url
+            
+            
+            
+        }catch(err){
+            console.log(err)
+        }
     };
-
+    
     const flux = useContext(Context);
-
+    
     const [producto, setProducto] = useState({
         name: "",
         amount: "",
@@ -48,19 +46,27 @@ export const Productos = () => {
         image: null,
         product_url: "",
     });
-
+    
     function eliminarImagen() {
         setProducto({ ...producto, image: null });
     }
+    
+    async function agregarProducto() {
+        
+        try {
 
-    function agregarProducto() {
-        flux.actions.newProduct(producto);
-        setSubmitModal(true);
-        setTimeout(() => {
-            setSubmitModal(false);
+            const url = await uploadFile();
+
+            await flux.actions.newProduct({ ...producto, product_url: url });
+    
+            setUploadModal(true);
+            
             navigate("/order");
-        }, 2000);
 
+        } catch (error) {
+            console.log(error)
+        }
+        
     }
 
     return (
@@ -137,13 +143,6 @@ export const Productos = () => {
                             className="form-control d-none"
                         />
                     </label>
-                    <button
-                        onClick={() => uploadFile()}
-                        type="submit"
-                        className="btn btn-success"
-                    >
-                        Subir Imagen
-                    </button>
                 </div>
                 {producto.image && (
                     <div className="position-relative">
