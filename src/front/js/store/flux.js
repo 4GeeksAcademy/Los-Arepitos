@@ -1,6 +1,19 @@
 import { useNavigate } from "react-router-dom";
 import { toast } from 'react-toastify';
 
+const showError = () => {
+	toast.error('Error loading message from backend ', {
+		position: "top-center",
+		autoClose: 5000,
+		hideProgressBar: false,
+		closeOnClick: true,
+		pauseOnHover: true,
+		draggable: true,
+		progress: undefined,
+		theme: "colored",
+	});
+}
+
 const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
@@ -20,7 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 				}
 			},
 
@@ -39,10 +52,19 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					// setStore({ message: data.message })
 					// don't forget to return something, that is how the async resolves
-					toast("Wow so easy !");
+					toast.success('Product created with success!', {
+						position: "top-center",
+						autoClose: 5000,
+						hideProgressBar: false,
+						closeOnClick: true,
+						pauseOnHover: true,
+						draggable: true,
+						progress: undefined,
+						theme: "colored",
+					});
 					return data;
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 				}
 			},
 			getProducts: async () => {
@@ -55,7 +77,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 				}
 			},
 			createCustomer: async (customer) => {
@@ -76,7 +98,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return true;
 
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 					return false
 				}
 			},
@@ -97,7 +119,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					getActions().getProfile()
 					return true;
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 					return false
 				}
 			},
@@ -118,7 +140,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json()
 					setStore({ profile: data })
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 				}
 
 			},
@@ -138,7 +160,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const data = await resp.json()
 					return true;
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 					return false
 				}
 			},
@@ -161,7 +183,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					return true;
 				} catch (error) {
-					console.log("Error loading message from backend", error)
+					showError()
 					return false
 				}
 			},
@@ -169,6 +191,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 			logOut: () => {
 				localStorage.removeItem("token") //elimanaria el token
 				setStore({ token: null, profile: null })
+				toast.info('Disconnected!', {
+					position: "top-center",
+					autoClose: 5000,
+					hideProgressBar: false,
+					closeOnClick: true,
+					pauseOnHover: true,
+					draggable: true,
+					progress: undefined,
+					theme: "colored",
+				});
 			}
 		}
 	};

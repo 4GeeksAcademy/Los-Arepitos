@@ -4,11 +4,14 @@ import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 import { Modal } from "react-bootstrap";
 import { FcOk } from "react-icons/fc";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const navigate = useNavigate();
   const { store, actions } = useContext(Context);
+
   const [isShow, setIsShown] = useState(false);
+
   const [customer, setCustomer] = useState({
     name: "",
     email: "",
@@ -29,22 +32,45 @@ export const Login = () => {
         setModalMessage("Registration successful!");
         setShowModal(true);
       } else {
-        alert("An error has occured");
+        toast.error('An error has occured', {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       }
     } else {
-      alert("Password doesn't match");
+      toast.error('Password doesnt match', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   }
 
   function customerLogin({ email, password }) {
     let isValid = actions.loginCustomer(email, password);
     if (isValid) {
-      setModalMessage("Login successful!");
-      setShowModal(true);
-      setTimeout(() => {
-        setShowModal(false);
-        navigate("/");
-      }, 2000);
+      toast.success('Login successful!', {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+      navigate("/");
     }
   }
 
