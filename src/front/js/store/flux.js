@@ -73,7 +73,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const resp = await fetch(process.env.BACKEND_URL + "/api/products")
 					const data = await resp.json()
 
-					setStore({ products: data })
+					setStore({ products: data.results })
 					// don't forget to return something, that is how the async resolves
 					return data;
 				} catch (error) {

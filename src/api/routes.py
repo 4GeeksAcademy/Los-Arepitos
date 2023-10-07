@@ -4,7 +4,8 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Address, Customer, Driver, VehicleType, Products, Order
 from api.utils import generate_sitemap, APIException
-
+import random
+import math
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 
 import re
@@ -180,8 +181,24 @@ def create_customer():
 
 @api.route("/products", methods=['GET'])
 def load_products():
-    productos = Products.query.all()
-    return [ prod.serialize() for prod in productos ] , 200
+
+    args = request.args
+
+    limit = args.get("limit", 10, type=int)
+    page = args.get("page", 1, type=int)
+
+    count = Products.query.count()
+    total_pages = math.ceil( count / limit )
+
+    productos = Products.query.offset( (page - 1) * limit ).limit(limit)
+
+    # esta cosa // es la parte entera o round de la division
+    return {
+           "results": [ prod.serialize() for prod in productos ],
+           "total": count,
+           "total_pages": total_pages,
+           "page": page
+        } , 200
 
 
 @api.route("/products", methods=['POST'])
@@ -253,3 +270,42 @@ def new_order():
 
     else:
         return { "Something is missing or incorrect" }, 500
+    
+
+
+
+@api.route("/populate-products", methods=['POST'])
+def generate_product():
+
+    names = [ "Tequeños" , "Empanadas", "Pastelito", "Salchipapá", "Quesillo", "Cachapa", "Patacones", "Pepito" ]
+    ingredientes = [ "Pernil", "Mechada", "Aguacate", "Gambas", "Jamón", "Chicharron", "Mixto", "Lentejas" ]
+    contornos = [ "tajadas", "Ensalada", "Patatas", "French Fries", "Yuquitas" ]
+
+    descriptiones = [ 
+        "Un platillo espectacular" , 
+        "Una comida caotica", 
+        "Con que vive el Caribe", 
+        "Esta vaina no la vaz a olvidar",
+        "Tu momento magico" 
+    ]
+
+    imagenes = [
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlqBc_b8hUt7CJtD0aW0UTQmBwDFwZnsUEDg&usqp=CAU",
+        "https://comidasvenezolanas.net/wp-content/uploads/2019/03/cachapa-venezolana-1.jpg",
+        "https://imag.bonviveur.com/empanadas-argentinas-de-carne-foto-cerca.jpg",
+        "https://d1kxxrc2vqy8oa.cloudfront.net/wp-content/uploads/2019/11/02125135/RFB-3110-3-masadepastelitos.jpg",
+        "https://imag.bonviveur.com/emplatado-final-de-las-salchipapas.jpg",
+        "https://tropicalcheese.com/wp-content/uploads/2019/03/patacon-1280x640.jpg",
+        "https://www.comedera.com/wp-content/uploads/2022/02/Tequenos-de-guayaba-y-queso..jpg"
+    ]
+
+    for _ in range(10000):
+        name = f"{random.choice(names)} de {random.choice(ingredientes)} con {random.choice(contornos)}"
+        description = random.choice(descriptiones)
+        amount = random.randint(12,36)
+        price = round( random.uniform(10.5, 75.5) , 2 )
+        image = random.choice(imagenes)
+        new_product = Products.create(name=name, amount=amount, image=image, description=description, price=price)
+    
+
+    return { "msg": "Products populated successfully" } , 200
