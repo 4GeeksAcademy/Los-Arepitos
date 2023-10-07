@@ -15,9 +15,10 @@ import ShoopingCart from "./component/shoopingCart";
 import { Productos } from "./pages/productos"
 import { LoginDriver } from "./pages/loginDriver";
 import Dashboard from "./pages/dashboard";
-import Payment  from "./pages/payment";
+import Payment from "./pages/payment";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import AdminProducts from "./pages/adminProducts";
 
 //create your first component
 const Layout = () => {
@@ -38,6 +39,9 @@ const Layout = () => {
             <Route element={<Login />} path="/login" />
             <Route element={<LoginDriver />} path="/loginDriver" />
             <Route element={<Productos />} path="/productos" />
+
+            <Route element={<AdminProducts />} path="/admin/products" />
+
             <Route element={<Dashboard />} path="/admin" />
             <Route element={<Order />} path="/order" />
             <Route element={<ShoopingCart />} path="/order/details" />
