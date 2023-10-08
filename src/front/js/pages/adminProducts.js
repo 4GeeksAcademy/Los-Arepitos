@@ -13,7 +13,7 @@ const AdminProducts = () => {
     }, [])
 
     return (
-        <section className="d-flex mt-5 mx-5 ">
+        <section className="d-flex flex-column mt-5 w-75 mx-auto">
             <table className="table table-hover">
                 <thead className="table-dark">
                     <tr>
@@ -22,6 +22,7 @@ const AdminProducts = () => {
                         <th scope="col">Descrption</th>
                         <th scope="col">State</th>
                         <th scope="col">Quantity</th>
+                        <th scope="col">Price</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,7 +45,8 @@ const AdminProducts = () => {
                                     </div></td>
                                     <td><p className="text-muted mb-0">{product.description}</p></td>
                                     <td><span className="badge rounded-pill bg-success">Active</span></td>
-                                    <td><span>{product.quantity}</span></td>
+                                    <td className="text-center"><span>{product.quantity}</span></td>
+                                    <td><span>{parseFloat(product.price).toFixed(2) + "$"}</span></td>
                                 </tr>
                             )
                         })
@@ -52,6 +54,19 @@ const AdminProducts = () => {
 
                 </tbody>
             </table>
+            <nav aria-label="Page navigation example">
+                <ul className="pagination justify-content-center">
+                    <li className="page-item mx-0 disabled">
+                        <a className="page-link" href="#" tabIndex="-1" aria-disabled="true">Previous</a>
+                    </li>
+                    <li className="page-item mx-0"><a className="page-link" href="#">1</a></li>
+                    <li className="page-item mx-0"><a className="page-link" href="#">2</a></li>
+                    <li className="page-item mx-0"><a className="page-link" href="#">3</a></li>
+                    <li className="page-item mx-0">
+                        <a className="page-link" href="#">Next</a>
+                    </li>
+                </ul>
+            </nav>
         </section>
     )
 
