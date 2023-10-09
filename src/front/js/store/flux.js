@@ -26,7 +26,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			// Use getActions to call a function within a fuction
 			getMessage: async () => {
 				try {
-					// fetching data from the backend
+					// fetching data from the backend					
 					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
 					const data = await resp.json()
 					setStore({ message: data.message })
