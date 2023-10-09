@@ -2,12 +2,14 @@ import React, { useEffect, useState, useMemo } from "react";
 
 const AdminProducts = () => {
     const [products, setProducts] = useState(null)
-    const [pageView, setPageView] = useState({ view: [1, 2, 3], pages: null })
+    const [pageView, setPageView] = useState({ view: [1, 2, 3, 4, 5], pages: null, isPreviousEnable: false, isNextEnable: true })
+    const viewLength = pageView.view.length
+
     useEffect(() => {
         const getProduct = async () => {
-            const respond = await fetch('http://localhost:3001/api/products')
+            const respond = await fetch(process.env.BACKEND_URL + '/api/products')
             const dataJson = await respond.json()
-            const views = Math.ceil(dataJson.total_pages / 3)
+            const views = Math.ceil(dataJson.total_pages / viewLength)
             setProducts(dataJson)
             setPageView({ ...pageView, pages: views })
         }
@@ -15,15 +17,24 @@ const AdminProducts = () => {
     }, [])
 
     function handleClickNext() {
+        const array = Array.from(pageView.view, (x) => x + viewLength);
+        //console.log(pageView.view[0])
+        if (pageView.view[0] == 1) {
+            setPageView({ ...pageView, view: array, isPreviousEnable: true })
+        } else setPageView({ ...pageView, view: array })
 
 
-        const array = Array.from(pageView.view, (x) => x + 3);
-        setPageView({ view: array })
     }
 
     function handleClickPrevious() {
-        const array = Array.from(pageView.view, (x) => x - 3);
-        setPageView({ view: array })
+        console.log(pageView.view[0] - viewLength)
+        const array = Array.from(pageView.view, (x) => x - viewLength);
+        if (pageView.view[0] - viewLength != 1) {
+            setPageView({ ...pageView, view: array })
+        } else {
+            console.log('porque no cambias')
+            setPageView({ ...pageView, view: array, isPreviousEnable: false })
+        }
     }
 
     return (
@@ -70,17 +81,13 @@ const AdminProducts = () => {
             </table>
             <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center">
-                    <li className="page-item mx-0">
+                    <li className={pageView.isPreviousEnable ? 'page-item mx-0' : 'page-item mx-0 disabled'}>
                         <a className="page-link" tabIndex="-1" aria-disabled="true" onClick={handleClickPrevious}>Previous</a>
                     </li>
                     {
                         pageView.view.map((page, item) => {
                             console.log(page, products?.total_pages)
-                            if (page <= 0) {
-                                setPageView({ view: [1, 2, 3] })
-                                return
-                            }
-                            return <li key={item} className="page-item mx-0"><a className="page-link" href="#">{page}</a></li>
+                            return <li key={item} className="page-item mx-0"><a className="page-link" >{page}</a></li>
                         })
                     }
 
