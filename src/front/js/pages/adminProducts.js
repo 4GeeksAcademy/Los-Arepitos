@@ -1,20 +1,24 @@
 import React, { useEffect, useState, useMemo } from "react";
 
 const AdminProducts = () => {
+    const arrayPages = Array.from(Array(5), (_, i) => i + 1);
     const [products, setProducts] = useState(null)
-    const [pageView, setPageView] = useState({ view: [1, 2, 3, 4, 5], pages: null, isPreviousEnable: false, isNextEnable: true })
+    const [pageView, setPageView] = useState({ view: [1, 2, 3, 4, 5, 10, 20], pages: null, isPreviousEnable: false, isNextEnable: true })
+    const [ currentPage , setCurrentPage ] = useState(1)
+    const [ currentLimit, setCurrentLimit ] = useState(5)
     const viewLength = pageView.view.length
 
     useEffect(() => {
         const getProduct = async () => {
-            const respond = await fetch(process.env.BACKEND_URL + '/api/products')
+            const respond = await fetch(process.env.BACKEND_URL + `/api/products?page=${currentPage}&limit=${currentLimit}`)
             const dataJson = await respond.json()
             const views = Math.ceil(dataJson.total_pages / viewLength)
             setProducts(dataJson)
             setPageView({ ...pageView, pages: views })
         }
         getProduct()
-    }, [])
+
+    }, [currentPage]) // cada vez que cambie la pagina
 
     function handleClickNext() {
         const array = Array.from(pageView.view, (x) => x + viewLength);
@@ -81,19 +85,32 @@ const AdminProducts = () => {
             </table>
             <nav aria-label="Page navigation example">
                 <ul className="pagination justify-content-center">
-                    <li className={pageView.isPreviousEnable ? 'page-item mx-0' : 'page-item mx-0 disabled'}>
+                    {/* <li className={pageView.isPreviousEnable ? 'page-item mx-0' : 'page-item mx-0 disabled'}>
                         <a className="page-link" tabIndex="-1" aria-disabled="true" onClick={handleClickPrevious}>Previous</a>
-                    </li>
+                    </li> */}
                     {
-                        pageView.view.map((page, item) => {
-                            console.log(page, products?.total_pages)
-                            return <li key={item} className="page-item mx-0"><a className="page-link" >{page}</a></li>
+                        arrayPages.map((page, item) => {
+                            if( currentPage - page > 0) 
+                            return <li key={item} className={ "page-item mx-0" } onClick={()=>setCurrentPage(currentPage - page)} >
+                                    <a className="page-link" >{currentPage - page}</a>
+                                </li>
+                            else return ""
+                        }).reverse()
+                    }
+                    <li className={ "page-item mx-0 "} ><a className="page-link bg-dark text-white" >{currentPage}</a></li>
+                    {
+                        arrayPages.map((page, item) => {
+                            if( currentPage + page < currentPage + arrayPages.length ) 
+                            return <li key={item} className={ "page-item mx-0"} onClick={()=>setCurrentPage(currentPage + page)}>
+                                    <a className="page-link" >{currentPage + page}</a>
+                                </li>
+                            else return ""
                         })
                     }
-
-                    <li className="page-item mx-0">
+                    { products && <span> Total Pages: { products.total_pages} </span>}
+                    {/* <li className="page-item mx-0">
                         <a className="page-link" onClick={handleClickNext}>Next</a>
-                    </li>
+                    </li> */}
                 </ul>
             </nav>
         </section>
