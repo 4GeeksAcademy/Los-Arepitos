@@ -2,11 +2,27 @@ import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import arepitosLogo from "../../img/arepitos.png"
+import { isTokenExpired } from "../utils/isTokenExpired"
 
 export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 	const [title, setTitle] = useState("");
 	const titulo = ["Los Arepitos", "Venezuelan Food"];
+
+	useEffect(() => {
+
+		const verificarCadaNMinutos = 5;
+		const intervaloLogin = setInterval(() => {
+			if (store.token) {
+				const validateSession = isTokenExpired(store.token)
+				if (validateSession) {
+					actions.logOut()
+				}
+				console.log("sobrevivio 1 minuto mas 🐖")
+			}
+		}, verificarCadaNMinutos * 1000 * 60)
+
+	}, [])
 
 	useEffect(() => {
 		let i = 0;

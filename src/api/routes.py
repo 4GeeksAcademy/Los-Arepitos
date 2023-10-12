@@ -7,7 +7,7 @@ from api.utils import generate_sitemap, APIException
 import random
 import math
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-
+from datetime import timedelta
 import re
 import bcrypt
  
@@ -47,7 +47,7 @@ def create_token():
     password_byte =bytes(password, 'utf-8')
     # hash_password = bcrypt.hashpw(password_byte)
     if bcrypt.checkpw(password_byte, user.password.encode('utf-8')):
-        return {'token': create_access_token(identity = user.email)},200
+        return {'token': create_access_token(identity = user.email, expires_delta=timedelta(hours=3))},200
     return {'message': 'you shall no pass'}, 501
 
 # bpassword = bytes(password, 'utf-8')
@@ -123,7 +123,7 @@ def create_driver():
 
             db.session.commit() # Datos en la BD postgrest
 
-            return { "customer": new_customer.serialize() , "token" : create_access_token(identity=email) }, 200
+            return { "customer": new_customer.serialize() , "token" : create_access_token(identity=email, expires_delta=timedelta(hours=3)) }, 200
 
         except ValueError as error:
 

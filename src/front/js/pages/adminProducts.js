@@ -26,8 +26,6 @@ const AdminProducts = () => {
         if (pageView.view[0] == 1) {
             setPageView({ ...pageView, view: array, isPreviousEnable: true })
         } else setPageView({ ...pageView, view: array })
-
-
     }
 
     function handleClickPrevious() {
