@@ -1,24 +1,29 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { useFetch } from "../hooks/useFetch";
 
 const AdminProducts = () => {
     const arrayPages = Array.from(Array(5), (_, i) => i + 1);
-    const [products, setProducts] = useState(null)
+    //const [products, setProducts] = useState(null)
     const [pageView, setPageView] = useState({ view: [1, 2, 3, 4, 5, 10, 20], pages: null, isPreviousEnable: false, isNextEnable: true })
-    const [ currentPage , setCurrentPage ] = useState(1)
-    const [ currentLimit, setCurrentLimit ] = useState(5)
+    const [currentPage, setCurrentPage] = useState(1)
+    const [currentLimit, setCurrentLimit] = useState(5)
     const viewLength = pageView.view.length
 
-    useEffect(() => {
-        const getProduct = async () => {
-            const respond = await fetch(process.env.BACKEND_URL + `/api/products?page=${currentPage}&limit=${currentLimit}`)
-            const dataJson = await respond.json()
-            const views = Math.ceil(dataJson.total_pages / viewLength)
-            setProducts(dataJson)
-            setPageView({ ...pageView, pages: views })
-        }
-        getProduct()
+    // useEffect(() => {
+    //     const getProduct = async () => {
+    //         const respond = await fetch(process.env.BACKEND_URL + `/api/products?page=${currentPage}&limit=${currentLimit}`)
+    //         const dataJson = await respond.json()
+    //         const views = Math.ceil(dataJson.total_pages / viewLength)
+    //         setProducts(dataJson)
+    //         setPageView({ ...pageView, pages: views })
+    //     }
+    //     getProduct()
 
-    }, [currentPage]) // cada vez que cambie la pagina
+    // }, [currentPage]) // cada vez que cambie la pagina
+
+    const { data, error, loading } = useFetch(process.env.BACKEND_URL + `/api/products?page=${currentPage}&limit=${currentLimit}`);
+    const products = data;
+    console.log(products, data)
 
     function handleClickNext() {
         const array = Array.from(pageView.view, (x) => x + viewLength);
@@ -53,6 +58,18 @@ const AdminProducts = () => {
                     </tr>
                 </thead>
                 <tbody>
+                    {
+                        loading &&
+                        <tr>
+                            <td colSpan={6}>
+                                <div className="d-flex justify-content-center">
+                                    <div className="spinner-border" role="status">
+                                        <span className="visually-hidden">Loading...</span>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
                     {products &&
                         products.results.map((product, item) => {
                             return (
@@ -88,24 +105,24 @@ const AdminProducts = () => {
                     </li> */}
                     {
                         arrayPages.map((page, item) => {
-                            if( currentPage - page > 0) 
-                            return <li key={item} className={ "page-item mx-0" } onClick={()=>setCurrentPage(currentPage - page)} >
+                            if (currentPage - page > 0)
+                                return <li key={item} className={"page-item mx-0"} onClick={() => setCurrentPage(currentPage - page)} >
                                     <a className="page-link" >{currentPage - page}</a>
                                 </li>
                             else return ""
                         }).reverse()
                     }
-                    <li className={ "page-item mx-0 "} ><a className="page-link bg-dark text-white" >{currentPage}</a></li>
+                    <li className={"page-item mx-0 "} ><a className="page-link bg-dark text-white" >{currentPage}</a></li>
                     {
                         arrayPages.map((page, item) => {
-                            if( currentPage + page < currentPage + arrayPages.length ) 
-                            return <li key={item} className={ "page-item mx-0"} onClick={()=>setCurrentPage(currentPage + page)}>
+                            if (currentPage + page < currentPage + arrayPages.length)
+                                return <li key={item} className={"page-item mx-0"} onClick={() => setCurrentPage(currentPage + page)}>
                                     <a className="page-link" >{currentPage + page}</a>
                                 </li>
                             else return ""
                         })
                     }
-                    { products && <span> Total Pages: { products.total_pages} </span>}
+                    {products && <span> Total Pages: {products.total_pages} </span>}
                     {/* <li className="page-item mx-0">
                         <a className="page-link" onClick={handleClickNext}>Next</a>
                     </li> */}
