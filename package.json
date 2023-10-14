@@ -75,6 +75,7 @@
 	"dependencies": {
 		"firebase": "^10.4.0",
 		"prop-types": "^15.6.1",
+		"qrcode": "^1.5.3",
 		"react": "^16.8.4",
 		"react-bootstrap": "^2.9.0",
 		"react-dom": "^16.8.4",
